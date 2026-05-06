@@ -1,0 +1,15 @@
+{
+  "conventionalCommits.scopes": [
+    "video",
+    "commit-scope",
+    "core",
+    "utils",
+    "file-system",
+    "route",
+    "user-facing",
+    "endpoint",
+    "types",
+    "service",
+    "vault"
+  ]
+}

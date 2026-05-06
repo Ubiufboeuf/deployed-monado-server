@@ -1,0 +1,33 @@
+import { Router } from 'express'
+import { createCursor, cursorFromB64, cursorToB64 } from '../services/cursorService'
+import { getVideosByCursor } from '../services/videoService'
+
+export const videosRouter = Router()
+
+videosRouter.get('/', (req, res) => {
+  const { query } = req
+  const limitStr = query.limit
+  const limit = Number(limitStr ?? 1)
+  let cursorStr = query.cursor
+
+  if (cursorStr === 'undefined' || cursorStr === 'null') {
+    cursorStr = undefined
+  }
+
+  const cursor = cursorStr
+    ? cursorFromB64(JSON.stringify(cursorStr))
+    : createCursor({ lastId: null })
+
+  if (!cursor) {
+    res.status(500)
+    return
+  }
+
+  const { list: videos, nextCursor } = getVideosByCursor(cursor, limit)
+
+  res.json({
+    success: true,
+    videos,
+    nextCursor: nextCursor ? cursorToB64(nextCursor) : nextCursor
+  })
+})
