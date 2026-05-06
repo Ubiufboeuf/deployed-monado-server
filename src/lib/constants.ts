@@ -20,7 +20,7 @@ export const ERRORS = {
 } as const
 
 export const FS_ROUTES = createFsRoutes({
-  public: 'public'
+  public: '../public'
 })
 
 // ROUTES son las constantes con los valores para crear los endpoints,
